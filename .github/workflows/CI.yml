@@ -338,6 +338,30 @@ jobs:
         with:
           toolchain: stable
       - run: make
+  
+  c_interface_cmake:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DSYSINFO_BUILD_EXAMPLES=ON
+        name: CMake build
+      - run: cmake --build ./build --config Release
+        name: CMake build
+      - if: ${{ matrix.os == 'windows-latest' }}
+        run: ./build/examples/c/Release/simple.exe
+        name: Run simple ${{ matrix.os }}
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: ./build/examples/c/simple
+        name: Run simple ${{ matrix.os }}
 
   unknown-targets:
     runs-on: ubuntu-latest

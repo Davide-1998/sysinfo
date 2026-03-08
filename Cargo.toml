@@ -146,6 +146,10 @@ itertools = "0.14.0"
 
 [[example]]
 name = "simple"
-path = "examples/simple.rs"
+path = "examples/rust/simple.rs"
 required-features = ["default"]
 doc-scrape-examples = true
+
+# Added empty workspace to avoid issues when working with projects
+# having both rust and C/C++ and also using the sysinfo library
+[workspace]
