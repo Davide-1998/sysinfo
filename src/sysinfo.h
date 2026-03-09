@@ -52,9 +52,9 @@ void        sysinfo_cpus_usage(CSystem system, unsigned int *length, float **cpu
 
 size_t      sysinfo_processes(CSystem system, bool (*fn_pointer)(PID, CProcess, void*),
                               void *data);
+CProcess    sysinfo_process_by_pid(CSystem system, PID pid);
 size_t      sysinfo_process_tasks(CProcess process, bool (*fn_pointer)(PID, void*),
                                   void *data);
-CProcess    sysinfo_process_by_pid(CSystem system, PID pid);
 PID         sysinfo_process_pid(CProcess process);
 PID         sysinfo_process_parent_pid(CProcess process);
 float       sysinfo_process_cpu_usage(CProcess process);
@@ -63,6 +63,7 @@ size_t      sysinfo_process_virtual_memory(CProcess process);
 RString     sysinfo_process_executable_path(CProcess process);
 RString     sysinfo_process_root_directory(CProcess process);
 RString     sysinfo_process_current_directory(CProcess process);
+
 void        sysinfo_networks_refresh(CNetworks networks);
 size_t      sysinfo_networks_received(CNetworks networks);
 size_t      sysinfo_networks_transmitted(CNetworks networks);
@@ -72,14 +73,14 @@ RString     sysinfo_cpu_brand(CSystem system);
 uint64_t    sysinfo_cpu_frequency(CSystem system);
 
 RString     sysinfo_system_name();
-RString     sysinfo_system_kernel_version();
 RString     sysinfo_system_version();
+RString     sysinfo_system_kernel_version();
 RString     sysinfo_system_host_name();
 RString     sysinfo_system_long_version();
 uint32_t    sysinfo_cpu_physical_cores();
 RString     sysinfo_motherboard_asset_tag();
 RString     sysinfo_motherboard_name();
-RString     sysinfo_motherboard_vendor_name();
+RString     sysinfo_motherboard_vendor(); // Equal to vendor_name
 RString     sysinfo_motherboard_version();
 RString     sysinfo_motherboard_serial_number();
 RString     sysinfo_product_family();

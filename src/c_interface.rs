@@ -44,6 +44,22 @@ pub extern "C" fn sysinfo_destroy(system: CSystem) {
     }
 }
 
+/// Equivalent of [`Networks::new()`][crate::Networks#method.new].
+#[unsafe(no_mangle)]
+pub extern "C" fn sysinfo_networks_init() -> CNetworks {
+    let networks = Box::new(Networks::new());
+    Box::into_raw(networks) as CNetworks
+}
+
+/// Equivalent of `Networks::drop()`. Important in C to cleanup memory.
+#[unsafe(no_mangle)]
+pub extern "C" fn sysinfo_networks_destroy(networks: CNetworks) {
+    assert!(!networks.is_null());
+    unsafe {
+        drop(Box::from_raw(networks as *mut Networks));
+    }
+}
+
 /// Equivalent of [`System::refresh_memory()`][crate::System#method.refresh_memory].
 #[unsafe(no_mangle)]
 pub extern "C" fn sysinfo_refresh_memory(system: CSystem) {
@@ -251,22 +267,6 @@ pub extern "C" fn sysinfo_cgroup_limits(
         };
         let _ = Box::into_raw(system);
         ret
-    }
-}
-
-/// Equivalent of [`Networks::new()`][crate::Networks#method.new].
-#[unsafe(no_mangle)]
-pub extern "C" fn sysinfo_networks_init() -> CNetworks {
-    let networks = Box::new(Networks::new());
-    Box::into_raw(networks) as CNetworks
-}
-
-/// Equivalent of `Networks::drop()`. Important in C to cleanup memory.
-#[unsafe(no_mangle)]
-pub extern "C" fn sysinfo_networks_destroy(networks: CNetworks) {
-    assert!(!networks.is_null());
-    unsafe {
-        drop(Box::from_raw(networks as *mut Networks));
     }
 }
 
